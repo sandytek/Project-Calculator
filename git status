@@ -1,0 +1,12 @@
+[33mcommit 8da465f8437cd0b969cb6954195129c54407e559[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: sandytek <146525821+sandytek@users.noreply.github.com>
+Date:   Thu Sep 12 20:10:18 2024 +0800
+
+    Add functions for all of the basic math operators
+    git commit-m
+
+[33mcommit e62b925216da503f4c270ddfddad38ded4a8a346[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Sandy <146525821+sandytek@users.noreply.github.com>
+Date:   Mon Sep 9 20:28:46 2024 +0800
+
+    Initial commit
