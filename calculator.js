@@ -19,6 +19,7 @@ let operator = '';
 let firstNum = '';
 let secondNum = '';
 let result = '';
+let decimalLog = 0;
 
 function operate(operation, first, second) {
     switch(operation) {
@@ -44,6 +45,7 @@ const numButtons = document.querySelectorAll(".button");
 const opsButtons = document.querySelectorAll(".opsButton");
 const equal = document.querySelector(".equalButton");
 const clear = document.querySelector(".clearButton");
+const decimal = document.querySelector(".decimalButton")
 
 // get the decimal button specially to control it
 // const decimalButton = Array.from(numButtons).find(button => button.textContent === '.');
@@ -54,6 +56,18 @@ numButtons.forEach((button) => {
         numDisplay += button.textContent;
         mainDisplay.textContent = `${numDisplay}`;
     });
+});
+
+decimal.addEventListener("click", () => {
+    if (numDisplay.length == 0) {
+        numDisplay = "0";
+        mainDisplay.textContent = `${numDisplay}`;
+        disableDecimalBtn();
+    }
+    numDisplay += decimal.textContent;
+    mainDisplay.textContent = `${numDisplay}`;
+    disableDecimalBtn();
+    
 });
 
 // add a second event listener specially for the decimal button.
@@ -80,11 +94,13 @@ function opsButtonEventCallback() {
     // so enable decimal button
     if (firstNum == '' && secondNum == '') {
         firstNum = numDisplay;
+        enableDecimalBtn();
         numDisplay = '';
         // enableDecimalBtn();
     } else if (firstNum !== '' && secondNum == '' && numDisplay !== '') {
         secondNum = numDisplay;
-        result = operate(operator, parseInt(firstNum), parseInt(secondNum));
+        enableDecimalBtn();
+        result = operate(operator, Number(firstNum), Number(secondNum));
         mainDisplay.textContent = `${result}`;
         firstNum = result;
         secondNum = '';
@@ -94,17 +110,18 @@ function opsButtonEventCallback() {
 }
 
 equal.addEventListener("click", () => {
-    equalButtonEventCallback();
+    equalButtonEventCallback()
 })
 
 function equalButtonEventCallback() {
     if (firstNum !== '' && numDisplay !== '') {
         secondNum = numDisplay;
-        result = operate(operator, parseInt(firstNum), parseInt(secondNum));
+        result = operate(operator, Number(firstNum), Number(secondNum));
         mainDisplay.textContent = `${result}`;
         firstNum = '';
         secondNum = '';
         numDisplay = result;
+        enableDecimalBtn();
     }
 }
 
@@ -115,10 +132,13 @@ clear.addEventListener("click", () => {
     secondNum = '';
     result = '';
     operator = '';
+    enableDecimalBtn();
     // since the entire number is cleared, decimal (if added) also disappears
     // so enable decimal button
     // enableDecimalBtn();
 });
+
+
 
 document.addEventListener('keydown', (event) => {
     switch (event.key) {
@@ -181,33 +201,42 @@ document.addEventListener('keydown', (event) => {
             operator = event.key;
             opsButtonEventCallback();
             break;
+        case ".":
+            if (numDisplay.length == 0) {
+                    numDisplay = "0";
+                    numDisplay += event.key;
+                    mainDisplay.textContent = `${numDisplay}`;
+                    disableDecimalBtn();
+            }
+            if (decimalLog == 0) {
+                numDisplay += event.key;
+                mainDisplay.textContent = `${numDisplay}`;
+                disableDecimalBtn();
+            }
+                break;
         case "Backspace":
             if(numDisplay !== '') {
                 // slice numDisplay, but didnt assign the slice back to numDisplay
                 // i.e. did not change numDisplay
                 let sliced = numDisplay.slice(0,-1);
                 let prev = numDisplay.slice(-1);
-                numDisplay = sliced;
-                mainDisplay.textContent = `${numDisplay}`;
-                // if backspace removed a decimal point, enable the decimal button
-                /*
                 if(prev == ".") {
                     enableDecimalBtn();
                 }
-                */
+                numDisplay = sliced;
+                mainDisplay.textContent = `${numDisplay}`;
             }
             break;
     }
         
-        
 });
 
-/*
 function enableDecimalBtn() {
-    decimalButton.disabled = false;
+    decimal.disabled = false;
+    decimalLog = 0;
 }
 
 function disableDecimalBtn() {
-    decimalButton.disabled = true;
+    decimal.disabled = true;
+    decimalLog = 1;
 }
-*/
